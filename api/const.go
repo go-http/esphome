@@ -1,0 +1,54 @@
+package api
+
+// API request/response types.
+const (
+	UnknownType = iota
+	HelloRequestType
+	HelloResponseType
+	ConnectRequestType
+	ConnectResponseType
+	DisconnectRequestType
+	DisconnectResponseType
+	PingRequestType
+	PingResponseType
+	DeviceInfoRequestType
+	DeviceInfoResponseType
+	ListEntitiesRequestType
+	ListEntitiesBinarySensorResponseType
+	ListEntitiesCoverResponseType
+	ListEntitiesFanResponseType
+	ListEntitiesLightResponseType
+	ListEntitiesSensorResponseType
+	ListEntitiesSwitchResponseType
+	ListEntitiesTextSensorResponseType
+	ListEntitiesDoneResponseType
+	SubscribeStatesRequestType
+	BinarySensorStateResponseType
+	CoverStateResponseType
+	FanStateResponseType
+	LightStateResponseType
+	SensorStateResponseType
+	SwitchStateResponseType
+	TextSensorStateResponseType
+	SubscribeLogsRequestType
+	SubscribeLogsResponseType
+	CoverCommandRequestType
+	FanCommandRequestType
+	LightCommandRequestType
+	SwitchCommandRequestType
+	SubscribeHomeAssistantServicesRequestType
+	HomeAssistantServiceResponseType
+	GetTimeRequestType
+	GetTimeResponseType
+	SubscribeHomeAssistantStatesRequestType
+	SubscribeHomeAssistantStateResponseType
+	HomeAssistantStateResponseType
+	ListEntitiesServicesResponseType
+	ExecuteServiceRequestType
+	ListEntitiesCameraResponseType
+	CameraImageResponseType
+	CameraImageRequestType
+	ListEntitiesClimateResponseType
+	ClimateStateResponseType
+	ClimateCommandRequestType
+)
