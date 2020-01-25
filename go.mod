@@ -1,4 +1,4 @@
-module maze.io/esphome
+module maze.io/x/esphome
 
 go 1.13
 

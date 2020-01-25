@@ -29,7 +29,7 @@ func main() {
 	}
 
 	log.Println("requesting camera image")
-	i, err := camera.Image().
+	i, err := camera.Image()
 	if err != nil {
 		log.Fatalln(err)
 	}
