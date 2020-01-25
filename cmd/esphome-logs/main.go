@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"maze.io/esphome/cmd"
-
-	"maze.io/esphome"
+	"maze.io/x/esphome"
+	"maze.io/x/esphome/cmd"
 )
 
 func main() {

@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"maze.io/esphome/cmd"
+	"maze.io/x/esphome/cmd"
 )
 
 func main() {

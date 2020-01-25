@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/proto"
-	"maze.io/esphome/api"
+	"maze.io/x/esphome/api"
 )
 
 // Camera is an ESP32 camera.

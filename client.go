@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	"maze.io/esphome/api"
-
 	proto "github.com/golang/protobuf/proto"
+
+	"maze.io/x/esphome/api"
 )
 
 const (

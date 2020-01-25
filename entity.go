@@ -4,7 +4,7 @@ import (
 	"image/color"
 	"math"
 
-	"maze.io/esphome/api"
+	"maze.io/x/esphome/api"
 )
 
 type Entity struct {
