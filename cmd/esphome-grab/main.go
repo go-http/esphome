@@ -16,7 +16,7 @@ func main() {
 	var output = flag.String("output", "camera.jpg", "output file")
 	flag.Parse()
 
-	log.Printf("connecting to node %s:%s", *cmd.NodeFlag, *cmd.PortFlag)
+	log.Printf("connecting to node %s:%d", *cmd.NodeFlag, *cmd.PortFlag)
 	client, err := cmd.Dial()
 	if err != nil {
 		log.Fatalln(err)

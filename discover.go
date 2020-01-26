@@ -14,6 +14,7 @@ import (
 	"github.com/miekg/dns"
 )
 
+// Discovery defaults.
 const (
 	DefaultMDNSService = "_esphomelib._tcp"
 	DefaultMDNSDomain  = "local"
@@ -30,6 +31,7 @@ var (
 	mDNSAddr6 = &net.UDPAddr{IP: net.ParseIP(mDNSIP6), Port: mDNSPort}
 )
 
+// Device is an ESPHome device (returned by Discover).
 type Device struct {
 	Name    string
 	Host    string
@@ -55,10 +57,12 @@ func (d *Device) complete() bool {
 	return d.Host != "" && (d.IP != nil || d.IP6 != nil)
 }
 
+// Discover ESPHome deices on the network.
 func Discover(devices chan<- *Device) error {
 	return DiscoverService(devices, DefaultMDNSService, DefaultMDNSDomain, DefaultMDNSTimeout)
 }
 
+// DiscoverService is used by Discover, can be used to override the default service and domain and to customize timeouts.
 func DiscoverService(devices chan<- *Device, service, domain string, timeout time.Duration) error {
 	c, err := newmDNSClient()
 	if err != nil {

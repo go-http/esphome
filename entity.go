@@ -7,6 +7,7 @@ import (
 	"maze.io/x/esphome/api"
 )
 
+// Entity is the base struct for all supported entities.
 type Entity struct {
 	Name     string
 	ObjectID string
@@ -28,6 +29,7 @@ type Entities struct {
 	TextSensor   map[string]TextSensor
 }
 
+// BinarySensor can be pressed, released and/or clicked.
 type BinarySensor struct {
 	Entity
 	DeviceClass string
@@ -47,13 +49,17 @@ func newBinarySensor(client *Client, entity *api.ListEntitiesBinarySensorRespons
 	}
 }
 
+// Climate devices can represent different types of hardware, but the defining factor is that climate devices have a
+// settable target temperature and can be put in different modes like HEAT, COOL, AUTO or OFF.
 type Climate struct {
 	Entity
 
+	// Capabilities of the entity.
 	Capabilities ClimateCapabilities
 }
 
 type (
+	// ClimateCapabilities represents the capabilities of a climate device.
 	ClimateCapabilities struct {
 		CurrentTemperature        bool
 		TwoPointTargetTemperature bool
@@ -66,11 +72,18 @@ type (
 		FanModes                  []ClimateFanMode
 		SwingModes                []ClimateSwingMode
 	}
-	ClimateMode      int32
-	ClimateFanMode   int32
+
+	// ClimateMode represents the mode for a climate device.
+	ClimateMode int32
+
+	// ClimateFanMode represents a climate fan speed.
+	ClimateFanMode int32
+
+	// ClimateSwingMode represents a climate (fan) swing mode.
 	ClimateSwingMode int32
 )
 
+// Climate modes.
 const (
 	ClimateModeOff ClimateMode = iota
 	ClimateModeAuto
@@ -80,6 +93,7 @@ const (
 	ClimateModeDry
 )
 
+// Climate fan modes.
 const (
 	ClimateFanModeOn ClimateFanMode = iota
 	ClimateFanModeOff
@@ -92,6 +106,7 @@ const (
 	ClimateFanModeDiffuse
 )
 
+// Climate swing modes.
 const (
 	ClimateSwingModeOff ClimateSwingMode = iota
 	ClimateSwingModeBoth
@@ -137,6 +152,7 @@ func newClimate(client *Client, entity *api.ListEntitiesClimateResponse) *Climat
 	}
 }
 
+// Cover device.
 type Cover struct {
 	Entity
 
@@ -155,6 +171,7 @@ func newCover(client *Client, entity *api.ListEntitiesCoverResponse) *Cover {
 	}
 }
 
+// Fan device.
 type Fan struct {
 	Entity
 
@@ -173,6 +190,7 @@ func newFan(client *Client, entity *api.ListEntitiesFanResponse) *Fan {
 	}
 }
 
+// Light device.
 type Light struct {
 	Entity
 
@@ -189,6 +207,7 @@ type Light struct {
 	HandleEffect           func(string)
 }
 
+// LightCapabilities represents the capabilities of a Light.
 type LightCapabilities struct {
 	Brightness       bool
 	RGB              bool
@@ -198,6 +217,7 @@ type LightCapabilities struct {
 	MaxMired         float32
 }
 
+// LightState represents the state of a Light.
 type LightState struct {
 	On                      bool
 	Brightness              float32
@@ -290,12 +310,14 @@ func (entity *Light) update(state *api.LightStateResponse) {
 	entity.StateIsValid = true
 }
 
+// SetBrightness sets the light's intensity (brightness).
 func (entity Light) SetBrightness(value float32) error {
 	request := entity.commandRequest()
 	request.Brightness = value
 	return entity.client.sendTimeout(request, entity.client.Timeout)
 }
 
+// SetColor sets the light's red, green and blue values.
 func (entity Light) SetColor(value color.Color) error {
 	r, g, b, _ := value.RGBA()
 	request := entity.commandRequest()
@@ -305,24 +327,28 @@ func (entity Light) SetColor(value color.Color) error {
 	return entity.client.sendTimeout(request, entity.client.Timeout)
 }
 
+// SetWhite sets the light's white value.
 func (entity Light) SetWhite(value float32) error {
 	request := entity.commandRequest()
 	request.White = value
 	return entity.client.sendTimeout(request, entity.client.Timeout)
 }
 
+// SetEffect selects a preconfigured effect.
 func (entity Light) SetEffect(effect string) error {
 	request := entity.commandRequest()
 	request.Effect = effect
 	return entity.client.sendTimeout(request, entity.client.Timeout)
 }
 
+// SetState turns the light on or off.
 func (entity Light) SetState(on bool) error {
 	request := entity.commandRequest()
 	request.State = on
 	return entity.client.sendTimeout(request, entity.client.Timeout)
 }
 
+// Sensor probes.
 type Sensor struct {
 	Entity
 	Icon              string
@@ -357,6 +383,7 @@ func (entity *Sensor) update(state *api.SensorStateResponse) {
 	entity.StateIsValid = !state.MissingState
 }
 
+// Switch includes all platforms that should show up like a switch and can only be turned ON or OFF.
 type Switch struct {
 	Entity
 	Icon         string
@@ -396,12 +423,15 @@ func (entity Switch) commandRequest() *api.SwitchCommandRequest {
 	}
 }
 
+// SetState updates the switch state.
 func (entity Switch) SetState(on bool) error {
 	request := entity.commandRequest()
 	request.State = on
 	return entity.client.sendTimeout(request, entity.client.Timeout)
 }
 
+// TextSensor is a lot like Sensor, but where the “normal” sensors only represent sensors that output numbers, this
+// component can represent any text.
 type TextSensor struct {
 	Entity
 	State        string

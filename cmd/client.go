@@ -4,6 +4,7 @@ import (
 	"flag"
 	"net"
 	"os"
+	"strconv"
 
 	"maze.io/x/esphome"
 )
@@ -15,13 +16,13 @@ const (
 
 var (
 	NodeFlag     = flag.String("node", getenv(envHost, "esphome.local"), "node API hostname or IP ("+envHost+")")
-	PortFlag     = flag.String("port", esphome.DefaultPort, "node API port")
+	PortFlag     = flag.Int("port", esphome.DefaultPort, "node API port")
 	PasswordFlag = flag.String("password", "", "node API password ("+envPassword+")")
 	TimeoutFlag  = flag.Duration("timeout", esphome.DefaultTimeout, "network timeout")
 )
 
 func Dial() (*esphome.Client, error) {
-	addr := net.JoinHostPort(*NodeFlag, *PortFlag)
+	addr := net.JoinHostPort(*NodeFlag, strconv.Itoa(*PortFlag))
 	client, err := esphome.DialTimeout(addr, *TimeoutFlag)
 	if err != nil {
 		return nil, err

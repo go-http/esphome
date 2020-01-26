@@ -12,12 +12,14 @@ import (
 	"maze.io/x/esphome/api"
 )
 
+// Client defaults.
 const (
 	DefaultTimeout    = 10 * time.Second
 	DefaultPort       = 6053
 	defaultClientInfo = "maze.io go/esphome"
 )
 
+// Client for an ESPHome device.
 type Client struct {
 	// Info identifies this device with the ESPHome node.
 	Info string
@@ -69,6 +71,7 @@ func Dial(addr string) (*Client, error) {
 	return DialTimeout(addr, 0)
 }
 
+// DialTimeout is like Dial with a custom timeout.
 func DialTimeout(addr string, timeout time.Duration) (*Client, error) {
 	conn, err := net.DialTimeout("tcp", addr, timeout)
 	if err != nil {
@@ -326,6 +329,7 @@ func (c *Client) Login(password string) error {
 	return nil
 }
 
+// Close the device connection.
 func (c *Client) Close() error {
 	_, err := c.sendAndWaitResponseTimeout(&api.DisconnectRequest{}, api.DisconnectResponseType, 5*time.Second)
 	select {
@@ -378,6 +382,7 @@ func (c *Client) DeviceInfo() (DeviceInfo, error) {
 	}, nil
 }
 
+// Entities returns all configured entities on the connected device.
 func (c *Client) Entities() Entities {
 	var entities = Entities{
 		BinarySensor: make(map[string]BinarySensor),
@@ -420,8 +425,10 @@ func (c *Client) Entities() Entities {
 	return entities
 }
 
+// LogLevel represents the logger level.
 type LogLevel int32
 
+// Log levels.
 const (
 	LogNone LogLevel = iota
 	LogError
