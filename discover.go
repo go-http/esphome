@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"net"
 	"strconv"
 	"strings"
@@ -198,7 +197,6 @@ func (c *mDNSClient) query(devices chan<- *Device, service, domain string, timeo
 			}
 
 			if d.complete() {
-				//log.Printf("complete device: %#+v", d)
 				if !d.sent {
 					select {
 					case devices <- d:
@@ -240,7 +238,6 @@ func (c *mDNSClient) parseSRV(addr string, partial map[string]*Device, rr *dns.S
 
 	hostname, suffix := rr.Hdr.Name[:index], strings.Trim(rr.Hdr.Name[index+1:], ".")
 	if !strings.EqualFold(suffix, addr) {
-		log.Printf("%q != %q", suffix, addr)
 		return nil
 	}
 
@@ -259,7 +256,6 @@ func (c *mDNSClient) parseTXT(addr string, partial map[string]*Device, rr *dns.T
 
 	hostname, suffix := rr.Hdr.Name[:index], strings.Trim(rr.Hdr.Name[index+1:], ".")
 	if !strings.EqualFold(suffix, addr) {
-		log.Printf("%q != %q", suffix, addr)
 		return nil
 
 	}
@@ -287,7 +283,6 @@ func (c *mDNSClient) parseA(domain string, partial map[string]*Device, rr *dns.A
 
 	hostname, suffix := rr.Hdr.Name[:index], strings.Trim(rr.Hdr.Name[index+1:], ".")
 	if !strings.EqualFold(suffix, domain) {
-		log.Printf("%q != %q", suffix, domain)
 		return nil
 	}
 
@@ -305,7 +300,6 @@ func (c *mDNSClient) parseAAAA(domain string, partial map[string]*Device, rr *dn
 
 	hostname, suffix := rr.Hdr.Name[:index], strings.Trim(rr.Hdr.Name[index+1:], ".")
 	if !strings.EqualFold(suffix, domain) {
-		log.Printf("%q != %q", suffix, domain)
 		return nil
 	}
 
