@@ -14,7 +14,7 @@ import (
 
 const (
 	DefaultTimeout    = 10 * time.Second
-	DefaultPort       = "6053"
+	DefaultPort       = 6053
 	defaultClientInfo = "maze.io go/esphome"
 )
 

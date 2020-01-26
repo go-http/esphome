@@ -5,7 +5,7 @@ import (
 	"net"
 	"os"
 
-	"maze.io/esphome"
+	"maze.io/x/esphome"
 )
 
 const (
