@@ -520,3 +520,14 @@ func (c *Client) Camera() (Camera, error) {
 	}
 	return Camera{}, ErrEntity
 }
+
+// Ping the server.
+func (c *Client) Ping() error {
+	return c.PingTimeout(c.Timeout)
+}
+
+// PingTimeout is like ping with a custom timeout.
+func (c *Client) PingTimeout(timeout time.Duration) error {
+	_, err := c.sendAndWaitResponseTimeout(&api.PingRequest{}, api.PingResponseType, timeout)
+	return err
+}
