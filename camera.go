@@ -13,6 +13,7 @@ import (
 // Camera is an ESP32 camera.
 type Camera struct {
 	Entity
+	lastFrame time.Time
 }
 
 func newCamera(client *Client, entity *api.ListEntitiesCameraResponse) *Camera {
@@ -49,6 +50,7 @@ func (entity *Camera) Image() (image.Image, error) {
 				out <- message.Data
 				if message.Done {
 					close(out)
+					entity.lastFrame = time.Now()
 					return
 				}
 			}
@@ -95,6 +97,7 @@ func (entity *Camera) Stream() (<-chan *bytes.Buffer, error) {
 				if frame.Done {
 					out <- buffer
 					buffer = new(bytes.Buffer)
+					entity.lastFrame = time.Now()
 				}
 
 			case <-ticker.C:
@@ -129,4 +132,9 @@ func (entity *Camera) ImageStream() (<-chan image.Image, error) {
 	}(in, out)
 
 	return out, nil
+}
+
+// LastFrame returns the time of the last camera frame received.
+func (entity *Camera) LastFrame() time.Time {
+	return entity.lastFrame
 }

@@ -30,14 +30,15 @@ type Client struct {
 	// Clock returns the current time.
 	Clock func() time.Time
 
-	conn      net.Conn
-	br        *bufio.Reader
-	entities  clientEntities
-	err       error
-	in        chan proto.Message
-	stop      chan struct{}
-	waitMutex sync.RWMutex
-	wait      map[uint64]chan proto.Message
+	conn        net.Conn
+	br          *bufio.Reader
+	entities    clientEntities
+	err         error
+	in          chan proto.Message
+	stop        chan struct{}
+	waitMutex   sync.RWMutex
+	wait        map[uint64]chan proto.Message
+	lastMessage time.Time
 }
 
 type clientEntities struct {
@@ -171,6 +172,7 @@ func (c *Client) waitMessageTimeout(messageType uint64, timeout time.Duration) (
 func (c *Client) readMessage() (err error) {
 	var message proto.Message
 	if message, err = api.ReadMessage(c.br); err == nil {
+		c.lastMessage = time.Now()
 		if !c.handleInternal(message) {
 			c.waitMutex.Lock()
 			in, waiting := c.wait[api.TypeOf(message)]
@@ -339,6 +341,11 @@ func (c *Client) Close() error {
 	return err
 }
 
+// LastMessage returns the time of the last message received.
+func (c *Client) LastMessage() time.Time {
+	return c.lastMessage
+}
+
 // DeviceInfo contains information about the ESPHome node.
 type DeviceInfo struct {
 	UsesPassword bool
@@ -360,6 +367,7 @@ type DeviceInfo struct {
 	// The model of the board. For example NodeMCU
 	Model string
 
+	// HasDeepSleep indicates the device has deep sleep mode enabled when idle.
 	HasDeepSleep bool
 }
 
