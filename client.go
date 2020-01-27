@@ -528,7 +528,6 @@ func (c *Client) Ping() error {
 
 // PingTimeout is like ping with a custom timeout.
 func (c *Client) PingTimeout(timeout time.Duration) error {
-	// ESPHome doesn't respond to ping (bug? expected?), so we request device info in stead.
-	_, err := c.sendAndWaitResponseTimeout(&api.DeviceInfoRequest{}, api.DeviceInfoResponseType, timeout)
-	return err
+	// ESPHome doesn't respond to ping (bug? expected?), so we fire & forget.
+	return c.sendTimeout(&api.PingRequest{}, timeout)
 }
