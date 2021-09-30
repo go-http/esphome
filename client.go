@@ -393,42 +393,42 @@ func (c *Client) DeviceInfo() (DeviceInfo, error) {
 // Entities returns all configured entities on the connected device.
 func (c *Client) Entities() Entities {
 	var entities = Entities{
-		BinarySensor: make(map[string]BinarySensor),
-		Camera:       make(map[string]Camera),
-		Climate:      make(map[string]Climate),
-		Cover:        make(map[string]Cover),
-		Fan:          make(map[string]Fan),
-		Light:        make(map[string]Light),
-		Sensor:       make(map[string]Sensor),
-		Switch:       make(map[string]Switch),
-		TextSensor:   make(map[string]TextSensor),
+		BinarySensor: make(map[string]*BinarySensor),
+		Camera:       make(map[string]*Camera),
+		Climate:      make(map[string]*Climate),
+		Cover:        make(map[string]*Cover),
+		Fan:          make(map[string]*Fan),
+		Light:        make(map[string]*Light),
+		Sensor:       make(map[string]*Sensor),
+		Switch:       make(map[string]*Switch),
+		TextSensor:   make(map[string]*TextSensor),
 	}
 	for _, item := range c.entities.binarySensor {
-		entities.BinarySensor[item.UniqueID] = *item
+		entities.BinarySensor[item.UniqueID] = item
 	}
 	for _, item := range c.entities.camera {
-		entities.Camera[item.UniqueID] = *item
+		entities.Camera[item.UniqueID] = item
 	}
 	for _, item := range c.entities.climate {
-		entities.Climate[item.UniqueID] = *item
+		entities.Climate[item.UniqueID] = item
 	}
 	for _, item := range c.entities.cover {
-		entities.Cover[item.UniqueID] = *item
+		entities.Cover[item.UniqueID] = item
 	}
 	for _, item := range c.entities.fan {
-		entities.Fan[item.UniqueID] = *item
+		entities.Fan[item.UniqueID] = item
 	}
 	for _, item := range c.entities.light {
-		entities.Light[item.UniqueID] = *item
+		entities.Light[item.UniqueID] = item
 	}
 	for _, item := range c.entities.sensor {
-		entities.Sensor[item.UniqueID] = *item
+		entities.Sensor[item.UniqueID] = item
 	}
 	for _, item := range c.entities.switches {
-		entities.Switch[item.UniqueID] = *item
+		entities.Switch[item.UniqueID] = item
 	}
 	for _, item := range c.entities.textSensor {
-		entities.TextSensor[item.UniqueID] = *item
+		entities.TextSensor[item.UniqueID] = item
 	}
 	return entities
 }

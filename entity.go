@@ -18,15 +18,15 @@ type Entity struct {
 
 // Entities is a high level map of a device's entities.
 type Entities struct {
-	BinarySensor map[string]BinarySensor
-	Camera       map[string]Camera
-	Climate      map[string]Climate
-	Cover        map[string]Cover
-	Fan          map[string]Fan
-	Light        map[string]Light
-	Sensor       map[string]Sensor
-	Switch       map[string]Switch
-	TextSensor   map[string]TextSensor
+	BinarySensor map[string]*BinarySensor
+	Camera       map[string]*Camera
+	Climate      map[string]*Climate
+	Cover        map[string]*Cover
+	Fan          map[string]*Fan
+	Light        map[string]*Light
+	Sensor       map[string]*Sensor
+	Switch       map[string]*Switch
+	TextSensor   map[string]*TextSensor
 }
 
 // BinarySensor can be pressed, released and/or clicked.
