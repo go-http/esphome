@@ -69,7 +69,7 @@ func newClientEntities() clientEntities {
 
 // Dial connects to ESPHome native API on the supplied TCP address.
 func Dial(addr string) (*Client, error) {
-	return DialTimeout(addr, 0)
+	return DialTimeout(addr, DefaultTimeout)
 }
 
 // DialTimeout is like Dial with a custom timeout.
